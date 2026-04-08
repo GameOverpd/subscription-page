@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= metaTitle %></title>
+<meta name="description" content="<%= metaDescription %>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg-primary:#0e1621;--bg-secondary:#17212b;--bg-tertiary:#1b2836;--bg-card:#1e2c3a;--bg-card-hover:#243447;--bg-card-active:#2b5278;--accent:#5288c1;--accent-light:#64b5ef;--accent-glow:rgba(82,136,193,0.25);--text-primary:#f5f5f5;--text-secondary:#8b9bab;--text-muted:#5d7084;--border:rgba(255,255,255,0.06);--success:#4fae4e;--warning:#e8a14c;--danger:#e05d44;--violet:#7b68ee;--cyan:#45bdc6;--teal:#2bb89d;--orange:#e8983e;--red:#e05d44;--radius:14px;--radius-sm:10px;--shadow:0 2px 12px rgba(0,0,0,0.3);--glow1:rgba(82,136,193,0.08);--glow2:rgba(123,104,238,0.06);--glow3:rgba(69,189,198,0.04)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden;transition:background .5s}
+.bg-pattern{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 20% 10%,var(--glow1) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 90%,var(--glow2) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 50% 50%,var(--glow3) 0%,transparent 60%);transition:background .5s}
+.bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.03;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:24px 24px}
+.container{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:24px 16px 80px}
+.header{display:flex;align-items:center;gap:14px;padding:20px 0 8px;margin-bottom:20px}
+.header-logo{width:48px;height:48px;border-radius:12px;overflow:hidden;background:var(--bg-card);flex-shrink:0;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.header-logo img{width:100%;height:100%;object-fit:cover}
+.header-info{flex:1}
+.header-title{font-size:22px;font-weight:800;letter-spacing:-.3px}
+.header-sub{font-size:13px;color:var(--text-secondary);margin-top:2px}
+.header-actions{display:flex;gap:8px}
+.btn-icon{width:40px;height:40px;border-radius:10px;border:none;background:var(--bg-card);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.btn-icon:hover{background:var(--bg-card-hover);color:var(--accent-light)}
+.sub-info{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px;box-shadow:var(--shadow);transition:all .4s}
+.sub-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+.sub-row+.sub-row{border-top:1px solid var(--border)}
+.sub-label{font-size:13px;color:var(--text-secondary)}
+.sub-value{font-size:14px;font-weight:700}
+.sub-value.active{color:var(--success)}
+.bandwidth-bar{margin-top:10px;background:var(--bg-tertiary);border-radius:6px;height:8px;overflow:hidden;transition:background .4s}
+.bandwidth-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent-light));transition:all .5s}
+.section-title{font-size:15px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;transition:color .4s}
+.platforms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(119px,1fr));gap:8px;margin-bottom:24px}
+.platform-card{background:var(--bg-secondary);border:1.5px solid var(--border);border-radius:8px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:all .25s ease;user-select:none;text-align:center}
+.platform-card:hover{background:var(--bg-card-hover);border-color:rgba(82,136,193,.3);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.platform-card.active{background:var(--bg-card-active);border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow),0 4px 16px rgba(0,0,0,.3)}
+.platform-card .icon-wrap{width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:color .3s}
+.platform-card.active .icon-wrap{color:var(--accent-light)}
+.platform-card .icon-wrap svg{width:20px;height:20px}
+.platform-card .plat-name{font-size:11.5px;font-weight:700;line-height:1.2}
+.apps-tabs{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.apps-tabs::-webkit-scrollbar{height:0}
+.app-tab{flex-shrink:0;display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:var(--radius-sm);background:var(--bg-secondary);border:1.5px solid var(--border);cursor:pointer;transition:all .2s;white-space:nowrap}
+.app-tab:hover{background:var(--bg-card-hover)}
+.app-tab.active{background:var(--bg-card-active);border-color:var(--accent)}
+.app-tab .app-name{font-size:13px;font-weight:700}
+.app-tab .featured-badge{font-size:10px;font-weight:700;background:var(--accent);color:#fff;padding:1px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;transition:background .3s}
+.incy-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;background:#9db86a;color:#1a2510;margin-left:4px;vertical-align:middle}
+.steps-container{display:flex;flex-direction:column;gap:2px}
+.step-card{background:var(--bg-secondary);border:1px solid var(--border);padding:16px 18px;display:flex;gap:14px;align-items:flex-start;transition:all .4s}
+.step-card:first-child{border-radius:var(--radius) var(--radius) 0 0}
+.step-card:last-child{border-radius:0 0 var(--radius) var(--radius)}
+.step-card:only-child{border-radius:var(--radius)}
+.step-num{width:32px;height:32px;flex-shrink:0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.step-num.violet{background:rgba(123,104,238,.15);color:var(--violet)}
+.step-num.cyan{background:rgba(69,189,198,.15);color:var(--cyan)}
+.step-num.teal{background:rgba(43,184,157,.15);color:var(--teal)}
+.step-num.orange{background:rgba(232,152,62,.15);color:var(--orange)}
+.step-num.red{background:rgba(224,93,68,.15);color:var(--red)}
+.step-content{flex:1;min-width:0}
+.step-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.step-desc{font-size:13px;color:var(--text-secondary);line-height:1.55}
+.step-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.step-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;text-decoration:none}
+.step-btn.primary{background:var(--accent);color:#fff}
+.step-btn.primary:hover{background:var(--accent-light)}
+.step-btn.secondary{background:var(--bg-tertiary);color:var(--text-primary);border:1px solid var(--border)}
+.step-btn.secondary:hover{background:var(--bg-card-hover)}
+.step-btn svg{width:14px;height:14px}
+.modal-overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--bg-secondary);border-radius:var(--radius);border:1px solid var(--border);padding:24px;max-width:420px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.modal h3{font-size:18px;margin-bottom:16px}
+.modal .link-box{background:var(--bg-tertiary);border-radius:8px;padding:12px;font-size:12px;color:var(--text-secondary);word-break:break-all;margin-bottom:14px;line-height:1.5;border:1px solid var(--border)}
+.modal .btn-copy{width:100%;padding:12px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.modal .btn-copy:hover{background:var(--accent-light)}
+.modal .btn-close{width:100%;padding:10px;border:none;border-radius:8px;background:transparent;color:var(--text-secondary);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--success);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.4);opacity:0;transition:opacity .3s;z-index:200;pointer-events:none}
+.toast.show{opacity:1}
+.footer{text-align:center;padding:30px 0 10px;color:var(--text-muted);font-size:12px}
+.footer a{color:var(--accent);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeUp .4s ease-out forwards}
+.delay-1{animation-delay:.05s;opacity:0}
+.delay-2{animation-delay:.1s;opacity:0}
+.delay-3{animation-delay:.15s;opacity:0}
+@media(max-width:480px){.platforms-grid{grid-template-columns:repeat(3,1fr)}.container{padding:16px 12px 60px}.header-title{font-size:18px}}
+</style>
+<script>window.__PANEL_DATA__ = '<%= panelData %>';</script>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div class="bg-dots"></div>
+<div class="container">
+  <div class="header animate-in">
+    <div class="header-logo"><img src="https://raw.githubusercontent.com/arpicme/Proxy-App-Icon-set/refs/heads/main/white_background/Prizrak-box.svg" alt="Logo" onerror="this.style.display='none'"></div>
+    <div class="header-info"><div class="header-title">КВН</div><div class="header-sub">Страница подписки</div></div>
+    <div class="header-actions">
+      <button class="btn-icon" onclick="openModal()" title="Получить ссылку"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      <a class="btn-icon" href="https://t.me/legiz_trashbag" target="_blank" title="Поддержка"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></a>
+    </div>
+  </div>
+  <div class="sub-info animate-in delay-1">
+    <div class="sub-row"><span class="sub-label">Имя пользователя</span><span class="sub-value">—</span></div>
+    <div class="sub-row"><span class="sub-label">Статус</span><span class="sub-value active">Активна</span></div>
+    <div class="sub-row"><span class="sub-label">Истекает</span><span class="sub-value">—</span></div>
+    <div class="sub-row"><span class="sub-label">Трафик</span><span class="sub-value">—</span></div>
+    <div class="bandwidth-bar"><div class="bandwidth-fill" style="width:35%"></div></div>
+  </div>
+  <div class="section-title animate-in delay-2">Выберите платформу</div>
+  <div class="platforms-grid animate-in delay-2" id="platformsGrid"></div>
+  <div id="appsSection" style="display:none"><div class="section-title animate-in delay-3">Приложение</div><div class="apps-tabs" id="appsTabs"></div></div>
+  <div id="stepsSection" style="display:none"><div class="section-title" style="margin-top:20px">Установка</div><div class="steps-container" id="stepsContainer"></div></div>
+  <div class="footer">Работает на <a href="https://github.com/remnawave" target="_blank">Remnawave</a></div>
+</div>
+<div class="modal-overlay" id="linkModal"><div class="modal"><h3>Получить ссылку</h3><p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;">Скопируйте ссылку и вставьте в клиент.</p><div class="link-box" id="subLinkBox">https://your-panel.example.com/api/sub/xxxxx</div><button class="btn-copy" onclick="copyLink()">Скопировать ссылку</button><button class="btn-close" onclick="closeModal()">Закрыть</button></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const LANG='ru';
+
+// --- Parse real data from backend ---
+let PANEL={}, SUB_LINK='';
+try {
+  const raw = atob(window.__PANEL_DATA__ || '');
+  PANEL = JSON.parse(raw);
+} catch(e) { console.warn('No panel data:', e); }
+
+const panelResp = PANEL.response || {};
+const userData = panelResp.user || {};
+SUB_LINK = panelResp.subscriptionUrl || window.location.href;
+const LP = SUB_LINK;
+
+// Populate user info after DOM load
+document.addEventListener('DOMContentLoaded', () => {
+  const vals = document.querySelectorAll('.sub-value');
+
+  // Username
+  if (vals[0]) vals[0].textContent = userData.username || userData.shortUuid || '—';
+
+  // Status — check multiple possible field names, then infer
+  if (vals[1]) {
+    const st = (userData.status || userData.userStatus || '').toUpperCase();
+    const enabled = userData.enabled !== false && userData.isDisabled !== true;
+    const daysLeft = userData.daysLeft;
+
+    let isActive = false;
+    let statusText = '—';
+
+    if (st) {
+      isActive = st === 'ACTIVE';
+      if (st === 'ACTIVE') statusText = 'Активна';
+      else if (st === 'EXPIRED') statusText = 'Истекла';
+      else if (st === 'DISABLED') statusText = 'Отключена';
+      else if (st === 'LIMITED') statusText = 'Лимит исчерпан';
+      else statusText = st;
+    } else {
+      // Infer from daysLeft and enabled
+      isActive = enabled && (daysLeft == null || daysLeft > 0);
+      statusText = isActive ? 'Активна' : 'Неактивна';
+    }
+
+    vals[1].textContent = statusText;
+    vals[1].className = 'sub-value ' + (isActive ? 'active' : '');
+    if (!isActive) vals[1].style.color = 'var(--danger)';
+  }
+
+  // Expiry (field can be expiresAt or expireAt)
+  if (vals[2]) {
+    const daysLeft = userData.daysLeft;
+    const expiry = userData.expiresAt || userData.expireAt;
+    if (expiry) {
+      const d = new Date(expiry);
+      const dateStr = d.toLocaleDateString('ru-RU', {day:'numeric',month:'long',year:'numeric'});
+      vals[2].textContent = daysLeft != null ? dateStr + ' (' + daysLeft + ' дн.)' : dateStr;
+    } else if (daysLeft != null) {
+      vals[2].textContent = daysLeft + ' дн. осталось';
+    } else {
+      vals[2].textContent = 'Бессрочно';
+    }
+  }
+
+  // Bandwidth — trafficLimit "0" means unlimited
+  if (vals[3]) {
+    const used = userData.trafficUsed || '';
+    const limit = userData.trafficLimit || '';
+    const isUnlimited = !limit || limit === '0' || limit === '0 B';
+
+    if (used && !isUnlimited) {
+      vals[3].textContent = used + ' / ' + limit;
+    } else if (used) {
+      vals[3].textContent = used + ' / ∞';
+    } else {
+      vals[3].textContent = '—';
+    }
+
+    // Progress bar
+    const fill = document.querySelector('.bandwidth-fill');
+    const usedBytes = Number(userData.trafficUsedBytes) || 0;
+    const limitBytes = Number(userData.trafficLimitBytes) || 0;
+    if (fill && limitBytes > 0) {
+      fill.style.width = Math.min(100, (usedBytes / limitBytes) * 100).toFixed(1) + '%';
+    } else if (fill) {
+      fill.style.width = '0%';
+    }
+  }
+
+  // Update link modal
+  const linkBox = document.getElementById('subLinkBox');
+  if (linkBox) linkBox.textContent = SUB_LINK;
+
+  // Fetch branding config from backend
+  fetch('/assets/.app-config-v2.json?v=' + Date.now(), {credentials:'same-origin'})
+    .then(r => r.json())
+    .then(cfg => {
+      // Branding
+      const brand = cfg.brandingSettings || {};
+      if (brand.title) {
+        const titleEl = document.querySelector('.header-title');
+        if (titleEl) titleEl.textContent = brand.title;
+      }
+      if (brand.logoUrl) {
+        const logoImg = document.querySelector('.header-logo img');
+        if (logoImg) { logoImg.src = brand.logoUrl; logoImg.style.display = ''; }
+      }
+      if (brand.supportUrl) {
+        const supportBtn = document.querySelector('.header-actions a.btn-icon');
+        if (supportBtn) supportBtn.href = brand.supportUrl;
+      }
+      // Meta
+      const base = cfg.baseSettings || {};
+      if (base.metaTitle) document.title = base.metaTitle;
+    })
+    .catch(e => console.warn('Config fetch failed:', e));
+});
+const TD={
+'--bg-primary':'#0e1621','--bg-secondary':'#17212b','--bg-tertiary':'#1b2836',
+'--bg-card':'#1e2c3a','--bg-card-hover':'#243447','--bg-card-active':'#2b5278',
+'--accent':'#5288c1','--accent-light':'#64b5ef','--accent-glow':'rgba(82,136,193,0.25)',
+'--text-secondary':'#8b9bab','--text-muted':'#5d7084',
+'--glow1':'rgba(82,136,193,0.08)','--glow2':'rgba(123,104,238,0.06)','--glow3':'rgba(69,189,198,0.04)'
+};
+const TI={
+'--bg-primary':'#101a12','--bg-secondary':'#162119','--bg-tertiary':'#1c2a1f',
+'--bg-card':'#213026','--bg-card-hover':'#2a3b2e','--bg-card-active':'#2f4a2a',
+'--accent':'#7a9e3a','--accent-light':'#9db86a','--accent-glow':'rgba(122,158,58,0.2)',
+'--text-secondary':'#889e80','--text-muted':'#5e7558',
+'--glow1':'rgba(122,158,58,0.06)','--glow2':'rgba(157,184,106,0.04)','--glow3':'rgba(90,130,50,0.03)'
+};
+function setTheme(t){const r=document.documentElement;Object.entries(t).forEach(([k,v])=>r.style.setProperty(k,v))}
+const PI={
+AppleIcon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.286 7.008c-3.216 0-4.286 3.23-4.286 5.92c0 3.229 2.143 8.072 4.286 8.072c1.165-.05 1.799-.538 3.214-.538c1.406 0 1.607.538 3.214.538s4.286-3.229 4.286-5.381c-.03-.011-2.649-.434-2.679-3.23c-.02-2.335 2.589-3.179 2.679-3.228c-1.096-1.606-3.162-2.113-3.75-2.153c-1.535-.12-3.032 1.077-3.75 1.077c-.729 0-2.036-1.077-3.214-1.077z"/><path d="M12 4a2 2 0 0 0 2-2a2 2 0 0 0-2 2"/></svg>',
+Android:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l0 6"/><path d="M20 10l0 6"/><path d="M7 9h10v8a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1v-8a5 5 0 0 1 10 0"/><path d="M8 3l1 2"/><path d="M16 3l-1 2"/><path d="M9 18l0 3"/><path d="M15 18l0 3"/></svg>',
+Windows:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 20l-12-1.5c-1-.1-1.8-.9-1.8-1.9v-9.2c0-1 .8-1.8 1.8-1.9l12-1.5c1.2-.1 2.2.8 2.2 1.9v12.1c0 1.2-1.1 2.1-2.2 1.9z"/><path d="M12 5l0 14"/><path d="M4 12l16 0"/></svg>',
+macOS:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4m0 1a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-16a1 1 0 0 1-1-1z"/><path d="M7 8v1"/><path d="M17 8v1"/><path d="M12.5 4c-.654 1.486-1.26 3.443-1.5 9h2.5c-.19 2.867.094 5.024.5 7"/><path d="M7 15.5c3.667 2 6.333 2 10 0"/></svg>',
+Ubuntu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0"/><path d="M5 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0"/><path d="M19 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0"/></svg>',
+TV:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7m0 2a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-14a2 2 0 0 1-2-2z"/><path d="M16 3l-4 4l-4-4"/></svg>'
+};
+const PO=['ios','android','windows','macos','linux','appleTV','androidTV'];
+const PM={ios:{n:'iOS',i:'AppleIcon'},android:{n:'Android',i:'Android'},windows:{n:'Windows',i:'Windows'},macos:{n:'macOS',i:'macOS'},linux:{n:'Linux',i:'Ubuntu'},appleTV:{n:'Apple TV',i:'TV'},androidTV:{n:'Android TV',i:'TV'}};
+
+function incyB(p){
+const d={ios:[{l:'https://apps.apple.com/ru/app/incy/id6756943388',t:'App Store'}],
+android:[{l:'https://play.google.com/store/apps/details?id=llc.itdev.incy',t:'Google Play'},{l:'https://github.com/INCY-DEV/incy-platforms/releases/latest/download/Incy.apk',t:'Скачать APK'}],
+windows:[{l:'https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-windows-setup.exe',t:'Windows Setup'}],
+macos:[{l:'https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-macos-arm64.dmg',t:'macOS (Apple Silicon)'},{l:'https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-macos-intel.dmg',t:'macOS (Intel)'}],
+linux:[{l:'https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-linux-x64.deb',t:'Linux x64 (.deb)'},{l:'https://github.com/INCY-DEV/incy-platforms/releases/latest/download/incy-linux-x64.rpm',t:'Linux x64 (.rpm)'}],
+appleTV:[{l:'https://apps.apple.com/ru/app/incy/id6756943388',t:'App Store'}],
+androidTV:[{l:'https://play.google.com/store/apps/details?id=llc.itdev.incy',t:'Google Play'},{l:'https://github.com/INCY-DEV/incy-platforms/releases/latest/download/Incy.apk',t:'Скачать APK'}]};
+const bs=(d[p]||[]).map(b=>({link:b.l,type:'external',text:{ru:b.t}}));
+return[
+{svgIconColor:'cyan',title:{ru:'Установка приложения'},description:{ru:'Скачайте и установите INCY — кроссплатформенный прокси-клиент на базе Xray-core с поддержкой подписок, роутинга и TLS-фрагментации.'},buttons:bs},
+{svgIconColor:'cyan',title:{ru:'Добавление подписки'},description:{ru:'Откройте INCY → вкладка «Подписки» → нажмите «+» → вставьте ссылку подписки → «Сохранить». Ссылку скопируйте кнопкой выше.'},buttons:[{link:'#',type:'copy_link',text:{ru:'Скопировать ссылку подписки'}}]},
+{svgIconColor:'teal',title:{ru:'Подключение и использование'},description:{ru:'Выберите сервер из списка и нажмите кнопку подключения. При необходимости включите TUN в настройках.'},buttons:[]}
+]}
+
+const AD={
+ios:[{name:'INCY',featured:true,isIncy:true,blocks:[]}],
+android:[{name:'INCY',featured:true,isIncy:true,blocks:[]}],
+windows:[{name:'INCY',featured:true,isIncy:true,blocks:[]}],
+macos:[{name:'INCY',featured:true,isIncy:true,blocks:[]}],
+linux:[{name:'INCY',featured:true,isIncy:true,blocks:[]}],
+appleTV:[{name:'INCY',featured:true,isIncy:true,blocks:[]}],
+androidTV:[{name:'INCY',featured:true,isIncy:true,blocks:[]}]
+};
+
+let cP=null,cA=null;
+function t(o){if(!o)return'';return o[LANG]||o.en||Object.values(o)[0]||''}
+function rP(){const g=document.getElementById('platformsGrid');g.innerHTML='';PO.forEach(k=>{const m=PM[k],c=document.createElement('div');c.className='platform-card'+(cP===k?' active':'');c.innerHTML='<div class="icon-wrap">'+(PI[m.i]||'')+'</div><div class="plat-name">'+m.n+'</div>';c.onclick=()=>{cP=k;cA=null;rP();rA()};g.appendChild(c)})}
+function rA(){const s=document.getElementById('appsSection'),tb=document.getElementById('appsTabs'),apps=AD[cP];if(!apps){s.style.display='none';document.getElementById('stepsSection').style.display='none';return}if(!cA){const f=apps.find(a=>a.featured);cA=f?f.name:apps[0].name}const sa=apps.find(a=>a.name===cA);setTheme(sa&&sa.isIncy?TI:TD);if(apps.length<=1){s.style.display='none'}else{s.style.display='';tb.innerHTML='';apps.forEach(a=>{const tab=document.createElement('div');tab.className='app-tab'+(cA===a.name?' active':'');let l='<span class="app-name">'+a.name+'</span>';if(a.featured)l+='<span class="featured-badge">★</span>';if(a.isIncy)l+='<span class="incy-badge">new</span>';tab.innerHTML=l;tab.onclick=()=>{cA=a.name;rA()};tb.appendChild(tab)})}rS()}
+function rS(){const s=document.getElementById('stepsSection'),c=document.getElementById('stepsContainer'),apps=AD[cP];let app=apps.find(a=>a.name===cA);if(!app){s.style.display='none';return}let bl=app.isIncy?incyB(cP):app.blocks;s.style.display='';c.innerHTML='';bl.forEach((b,i)=>{const col=b.svgIconColor||'cyan',cd=document.createElement('div');cd.className='step-card';let bh='';if(b.buttons&&b.buttons.length>0){bh='<div class="step-buttons">'+b.buttons.map((btn,bi)=>{if(btn.type==='copy_link')return '<button class="step-btn primary" onclick="navigator.clipboard.writeText(\''+LP+'\');sT(\'Ссылка скопирована\')">'+t(btn.text)+' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>';let h=btn.link||'#';if(btn.type==='subscriptionLink')h=h.replace('{{SUBSCRIPTION_LINK}}',LP);const cl=bi===0&&btn.type==='subscriptionLink'?'primary':'secondary';return '<a class="step-btn '+cl+'" href="'+h+'" target="_blank" rel="noopener">'+t(btn.text)+' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h-6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/><path d="M11 13l9-9"/><path d="M15 4h5v5"/></svg></a>'}).join('')+'</div>'}cd.innerHTML='<div class="step-num '+col+'">'+(i+1)+'</div><div class="step-content"><div class="step-title">'+t(b.title)+'</div><div class="step-desc">'+t(b.description)+'</div>'+bh+'</div>';c.appendChild(cd)})}
+function openModal(){document.getElementById('linkModal').classList.add('show')}
+function closeModal(){document.getElementById('linkModal').classList.remove('show')}
+function copyLink(){navigator.clipboard.writeText(document.getElementById('subLinkBox').textContent).then(()=>{sT('Ссылка скопирована');closeModal()})}
+function sT(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+document.getElementById('linkModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+rP();
+</script>
+</body>
+</html>
