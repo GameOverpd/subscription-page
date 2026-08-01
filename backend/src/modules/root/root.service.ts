@@ -57,7 +57,10 @@ export class RootService {
             let shortUuidLocal = shortUuid;
 
             if (this.isGenericPath(req.path)) {
-                res.socket?.destroy();
+                // [2026-08-01] 404 вместо обрыва: картинки и robots.txt давали 502
+                // (19 из 53 запросов к robots.txt, 5 из 11 к .png). Утечки здесь нет —
+                // путь к картинке никак не связан с токеном подписки.
+                res.status(404).send();
                 return;
             }
 
