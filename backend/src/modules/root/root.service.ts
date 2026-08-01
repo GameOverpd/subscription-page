@@ -107,7 +107,12 @@ export class RootService {
             );
 
             if (!subscriptionDataResponse) {
-                res.socket?.destroy();
+                // [2026-08-01] Отвечаем 404 вместо обрыва соединения.
+                // Апстрим рвал связь, чтобы перебором нельзя было отличить живой токен
+                // от мёртвого. За обратным прокси это не работает: снаружи и так видно
+                // разницу между 200 и 502. Зато обрыв превращался в 502, и клиенты
+                // удалённых абонентов выглядели в мониторинге как авария.
+                res.status(404).send();
                 return;
             }
 
@@ -185,7 +190,8 @@ export class RootService {
             );
 
             if (!subscriptionDataResponse.isOk || !subscriptionDataResponse.response) {
-                res.socket?.destroy();
+                // [2026-08-01] То же, что и на клиентском пути: 404 вместо обрыва.
+                res.status(404).send();
                 return;
             }
 
@@ -203,7 +209,10 @@ export class RootService {
 
             if (subpageConfig.webpageAllowed === false) {
                 this.logger.log(`Webpage access is not allowed by Remnawave's SRR.`);
-                res.socket?.destroy();
+                // [2026-08-01] Тот же 404, что и для ненайденной подписки — НАМЕРЕННО.
+                // Если отдать здесь другой код (403), то перебором станет видно,
+                // какой токен существует: «нет» и «нельзя» обязаны выглядеть одинаково.
+                res.status(404).send();
                 return;
             }
 
